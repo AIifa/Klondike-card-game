@@ -1,9 +1,16 @@
-<script setup lang="ts">
-import HelloWorld from '../components/HelloWorld.vue'
+<script lang="ts">
+import MainWindow from '../components/MainWindow.vue'
+
+export default {
+  setup() {
+    return {}
+  },
+  components: { MainWindow }
+}
 </script>
 
 <template>
   <main>
-    <HelloWorld />
+    <MainWindow />
   </main>
 </template>
