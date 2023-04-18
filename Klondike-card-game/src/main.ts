@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import {DraggablePlugin} from '@braks/revue-draggable';
 
 import App from './App.vue'
 import router from './router'
@@ -12,5 +13,6 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+app.use(DraggablePlugin);
 
 app.mount('#app')

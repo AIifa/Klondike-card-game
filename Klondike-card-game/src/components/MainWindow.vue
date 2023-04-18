@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-  <div>The Klondike card game</div>
+  <div>Это игра</div>
   <GameField />
 </template>
 
