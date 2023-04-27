@@ -1,47 +1,81 @@
 <script lang="ts">
-import { reactive, ref, computed } from 'vue'
+import { onMounted } from 'vue'
 
 export default {
   props: {
-    name: String
+    typeCard: String,
+    nameCard: String,
+    position: String
   },
   setup(props) {
-    // Создать массив объектов для управление и создания шаблона карты
-    // Возможно стоит передавать пропсы и из них делать карту, подгружая необходимые вещи?
-    // const numberCard = ref(Array.from({ length: 4 }, (value, index) => index + 1))
-    // console.log(props.name)
-    // function goStore(index: number) {
-    //   const pos = numberCard.value.indexOf(index);
-    //   numberCard.value[pos]
-    // }
+    const backImageName = `../image/svg_playing_cards/backs/castle.svg`
 
-    function imgName() {
-      return new URL(`../image/PNG-cards-1.3/${props.name}.png`, import.meta.url).href
+    function backImage() { return new URL(backImageName, import.meta.url).href }
+
+    function frontImage() {
+      if (props.typeCard == "front")
+        return new URL(`../image/svg_playing_cards/fronts/${props.nameCard}.svg`, import.meta.url).href
+      else if (props.typeCard == "back")
+        return new URL(backImage(), import.meta.url).href
     }
 
+    onMounted(() => {
+      // if (props.position) {
+      //   console.log(props.position)
+      //   document.body.style.setProperty('--position', props.position || null)
+      // }
+    })
+
     return {
-      // goStore,
-      // numberCard
-      imgName
+      backImage,
+      frontImage
     }
   }
 }
 </script>
 
 <template>
-  <!-- <div v-for="index in numberCard" :key="index">
-        <button type="button" class="btn btn-info" value="ThisIsCard" @click="goStore(index)">{{ index }}</button>
-      </div> -->
-  <div class="card" v-draggable>
-    <img :src="imgName()" draggable="false">
+  <div v-if="typeCard == 'empty'" class="emptyCard">
+  </div>
+
+  <div v-else-if="typeCard == 'back' && nameCard == undefined" class="back">
+    <img :src=backImage() draggable="false">
+  </div>
+  <!-- Смена типа, ПОДУМоТЬ, вычисляемый классН? -->
+  <div v-else class="card" v-draggable :style="{ bottom: Number(position) * 5 + 'vw' }">
+    <img :src="frontImage()" draggable="false">
   </div>
 </template>
 
 <style lang="scss">
-.card {
+// Переменные css
+// :root {
 
-  height: 10px;
-  width: 6vw;
-  background-size: 50%;
+// }
+
+.card {
+  position: relative;
+  bottom: var(--position) + 'px';
+  width: 5vw;
+  height: 11vh;
+}
+
+.emptyCard {
+  width: 5vw;
+
+  border: rgb(0, 0, 0);
+  border-style: solid;
+  border-width: 1px;
+  background-color: rgba(137, 214, 93, 0.2);
+
+}
+
+.back {
+  width: 5vw;
+  height: 11vh;
+}
+
+img {
+  width: 5vw;
 }
 </style>
